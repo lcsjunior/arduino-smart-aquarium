@@ -1,7 +1,5 @@
 #include "thermostat.h"
 
-unsigned long stateExitTime = 0;
-
 void Thermostat::begin(const float setpoint, const float hysteresis,
                        const float lowerLimit, const float upperLimit) {
   _setpoint = setpoint;
@@ -13,7 +11,10 @@ void Thermostat::begin(const float setpoint, const float hysteresis,
 ThermostatState Thermostat::getState() const { return _state; }
 
 void Thermostat::setState(ThermostatState state) {
-  stateExitTime = millis();
+  if (_state == state) {
+    return;
+  }
+  _stateExitTime = millis();
   Serial.print(F("Thermostat changed from "));
   Serial.print(getStatus());
   _state = state;
@@ -44,7 +45,7 @@ void Thermostat::handleHeater(float cTemp) {
   switch (_state) {
   case IDLE:
     _k->turnOff();
-    if ((millis() - stateExitTime) >= IDLE_TIMEOUT) {
+    if ((millis() - _stateExitTime) >= IDLE_TIMEOUT) {
       setState(COOLING);
     }
     break;

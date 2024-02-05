@@ -18,6 +18,7 @@ private:
   float _hysteresis;
   float _lowerLimit;
   float _upperLimit;
+  unsigned long _stateExitTime = 0;
 
 public:
   Thermostat(Relay *k) : _k(k){};

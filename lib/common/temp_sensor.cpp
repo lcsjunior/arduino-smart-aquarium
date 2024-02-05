@@ -1,16 +1,14 @@
 #include "temp_sensor.h"
 
-unsigned long requestTemperaturesTime = 0;
-
 void DSTempSensor::begin(const byte pin) {
   _sensors = DallasTemperature(new OneWire(pin));
   _sensors.begin();
 }
 
 void DSTempSensor::requestTemperatures() {
-  if ((millis() - requestTemperaturesTime) >= REQUEST_TEMPERATURES_TIMEOUT) {
+  if ((millis() - _requestTemperaturesTime) >= REQUEST_TEMPERATURES_TIMEOUT) {
     _sensors.requestTemperatures();
-    requestTemperaturesTime = millis();
+    _requestTemperaturesTime = millis();
   }
 }
 

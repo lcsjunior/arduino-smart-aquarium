@@ -17,6 +17,7 @@ public:
 class DSTempSensor : public TempSensor {
 private:
   DallasTemperature _sensors;
+  unsigned long _requestTemperaturesTime = 0;
 
 public:
   void begin(const byte pin);
