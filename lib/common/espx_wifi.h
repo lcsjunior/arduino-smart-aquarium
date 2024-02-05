@@ -19,7 +19,8 @@
 #define WIFI_CONNECT_TIMEOUT (MILLIS_PER_SECOND * 60)
 #define CONFIG_TZ_DELAY (MILLIS_PER_SECOND * 3)
 #define NTP_SERVER "pool.ntp.org"
-#define TZ "<-03>3"
+// https://github.com/nayarsystems/posix_tz_db/blob/master/zones.csv
+#define SAO_PAULO_TZ "<-03>3"
 #define DATETIME_FORMAT "%Y-%m-%d %H:%M:%S"
 
 static const char TEXT_PLAIN[] PROGMEM = "text/plain";
@@ -37,13 +38,9 @@ uint8_t dBm2Quality(const int16_t dBm);
 
 class WifiClass {
 private:
-  const char *_ssid = WIFI_SSID;
-  const char *_pass = WIFI_PASS;
-  const char *_otaPass = OTA_PASS;
-  const char *_apPass = AP_PASS;
+  char _ssid[32];
+  char _pass[32];
   const char *_ntpServer = NTP_SERVER;
-  const char *_tz = TZ;
-  char _hostname[64];
   unsigned long _lastWiFiRetryConnectTime = 0;
   bool _shouldReboot = false;
   bool _isSTAEnabled = false;
@@ -52,8 +49,9 @@ private:
   uint8_t _channel = 0;
 
 public:
-  void initAP();
-  void initSTA();
+  void initAP(const char *apPass);
+  void initSTA(const char *ssid, const char *pass, const char *otaPass,
+               const char *tz, const char *hostname);
   void loop();
   uint32_t getChipId();
   uint8_t getAPChannel() const;

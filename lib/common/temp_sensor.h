@@ -5,6 +5,8 @@
 #include <OneWire.h>
 #include <DallasTemperature.h>
 
+#define REQUEST_TEMPERATURES_TIMEOUT 300UL
+
 class TempSensor {
 public:
   virtual void begin(const byte pin) = 0;

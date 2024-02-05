@@ -60,7 +60,9 @@ uint8_t dBm2Quality(const int16_t dBm) {
   return 2 * (dBm + 100);
 }
 
-void WifiClass::initAP() {
+void WifiClass::initAP(const char *apPass) {
+  delay(1000);
+
   char apSsid[32];
   sprintf_P(apSsid, "ESPsoftAP-%06x", getChipId());
 
@@ -69,7 +71,7 @@ void WifiClass::initAP() {
                                                        : F("Failed!"));
 
   Serial.print(F("Setting soft-AP... "));
-  Serial.println(WiFi.softAP(apSsid, _apPass) ? F("Ready") : F("Failed!"));
+  Serial.println(WiFi.softAP(apSsid, apPass) ? F("Ready") : F("Failed!"));
 
   Serial.print(F("AP IP Address:      "));
   Serial.println(WiFi.softAPIP());
@@ -86,15 +88,18 @@ void WifiClass::initAP() {
   Serial.print(F("Channel:            "));
   Serial.println(WiFi.channel());
   _apChannel = WiFi.channel();
+
+  delay(1000);
 }
 
-void WifiClass::initSTA() {
-#if defined(ESP8266)
-  sprintf_P(_hostname, "esp8266-%06x", getChipId());
-#else
-  sprintf_P(_hostname, "esp32-%06x", getChipId());
-#endif
-  WiFi.setHostname(_hostname);
+void WifiClass::initSTA(const char *ssid, const char *pass, const char *otaPass,
+                        const char *tz, const char *hostname) {
+  delay(1000);
+
+  strcpy_P(_ssid, ssid);
+  strcpy_P(_pass, pass);
+
+  WiFi.setHostname(hostname);
 
   WiFi.begin(_ssid, _pass);
   Serial.print(F("Connecting"));
@@ -106,18 +111,19 @@ void WifiClass::initSTA() {
   }
   _isSTAEnabled = true;
 
-  configTzTime(_tz, _ntpServer);
+  configTzTime(tz, _ntpServer);
   currentMillis = millis();
   while ((millis() - currentMillis) <= CONFIG_TZ_DELAY) {
     Serial.print(F("."));
     delay(300);
   }
+  delay(1000);
   Serial.println();
   Serial.print(F("Local Time:         "));
   printLocalTime();
 
-  ArduinoOTA.setHostname((const char *)_hostname);
-  ArduinoOTA.setPassword((const char *)_otaPass);
+  ArduinoOTA.setHostname((const char *)hostname);
+  ArduinoOTA.setPassword((const char *)otaPass);
   ArduinoOTA.begin();
 
   Serial.print(F("IP Address:         "));
@@ -138,6 +144,8 @@ void WifiClass::initSTA() {
   Serial.print(F(" dBm / "));
   Serial.print(dBm2Quality(WiFi.RSSI()));
   Serial.println(F("%"));
+
+  delay(1000);
 }
 
 void WifiClass::loop() {

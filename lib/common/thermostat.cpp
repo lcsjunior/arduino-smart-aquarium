@@ -14,7 +14,11 @@ ThermostatState Thermostat::getState() const { return _state; }
 
 void Thermostat::setState(ThermostatState state) {
   stateExitTime = millis();
+  Serial.print(F("Thermostat changed from "));
+  Serial.print(getStatus());
   _state = state;
+  Serial.print(F(" to "));
+  Serial.println(getStatus());
 }
 
 char *Thermostat::getStatus() const {
