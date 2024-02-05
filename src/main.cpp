@@ -10,11 +10,11 @@
 #include <temp_sensor.h>
 #include <thermostat.h>
 
+#define LED_PIN 25
 #define RELAY_PIN_1 21
 #define RELAY_PIN_2 19
 #define RELAY_PIN_3 18
 #define RELAY_PIN_4 5
-
 #define DS_PIN_1 22
 #define DS_PIN_2 23
 
@@ -70,6 +70,9 @@ void initWS();
 
 void setup() {
   Serial.begin(SERIAL_BAUD_RATE);
+
+  pinMode(LED_PIN, OUTPUT);
+  digitalWrite(LED_PIN, LOW);
 
   tempSensor1.begin(DS_PIN_1);
   tempSensor2.begin(DS_PIN_2);
