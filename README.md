@@ -6,6 +6,8 @@ For this project, I chose to use the ThingSpeak IoT platform. See the dashboard 
 
 Basically, this project applies to my two planted nano aquariums, one 20l and the other 45l, which has CO2 injection through a Zrdr stainless steel cylinder and external Drop Checker. Each one has two 6500K LED bars and simple heaters that are activated according to a target temperature (thermostat function).
 
+4 outlets are using the relays and 2 have ac current directly to power the hang-ons. K1 for aquarium heater 1, K2 for aquarium heater 2, K3 for LED bars connected to a P4 source and K4 for CO2 solenoid valve.
+
 ## Screenshots
 
 This DIY device consists of a Shako HT200 plastic box, a 4x4 set with 6 sockets, LILYGO T-Relay ESP32, waterproof ds18b20 sensors, 12V power supply, wires, WAGO connectors and scraps.
