@@ -125,7 +125,7 @@ void writeMsg() {
       PSTR("field1=%.1f&field2=%.1f&field3=%d&field4=%d&field5=%d&field6=%d&"
            "status=PUB %s RSSI %d dBm (%d pcent)"),
       tempSensor1.getCTemp(), tempSensor2.getCTemp(), heater1.isOn(),
-      heater1.isOn(), lamp.isOn(), co2Valve.isOn(), tbuf, WiFi.RSSI(),
+      heater2.isOn(), lamp.isOn(), co2Valve.isOn(), tbuf, WiFi.RSSI(),
       dBm2Quality(WiFi.RSSI()));
 }
 
